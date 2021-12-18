@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-prometheus-test
+spec:
+  storageClassName: standard
+  capacity:
+    storage: 5Gi
+  accessModes:
+     - ReadWriteOnce
+  gcePersistentDisk: 
+    fsType: "ext4" 
+    pdName: "data-disk-1" 
+  persistentVolumeReclaimPolicy: Retain
+  claimRef:
+    namespace: monitoring
+    name: pvc-prometheus-test
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-prometheus-test
+spec:
+  storageClassName: standard
+  accessModes:
+     - ReadWriteOnce
+  resources:
+    requests:
+       storage: 2Gi
